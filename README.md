@@ -1,7 +1,4 @@
 # 3a.CREATION FOR ECHO CLIENT AND ECHO SERVER USING TCP SOCKETS
-```
-DEVELOPED BY: ASWINI D          REG NO: 212225240015
-```
 # AIM
 To write a python program for creating Echo Client and Echo Server using TCP
 Sockets Links.
@@ -12,31 +9,58 @@ Sockets Links.
  server .
 4. Send and receive the message using the send function in socket.
 ## PROGRAM
-```
-client side:
+### server.py
+~~~
+import socket
 
-import socket 
-s=socket.socket() 
-s.connect(('localhost',8000)) 
-while True: 
-  msg=input("Client > ") 
-  s.send(msg.encode()) 
-  print("Server > ",s.recv(1024).decode())
+s = socket.socket()
+s.bind(('localhost', 8000))
+s.listen(5)
 
-server side:
+print("Echo Server waiting for client...")
 
-import socket 
-s=socket.socket() 
-s.bind(('localhost',8000)) 
-s.listen(5) 
-c,addr=s.accept() 
-while True: 
-  ClientMessage=c.recv(1024).decode() 
-  c.send(ClientMessage.encode())
-```
+c, addr = s.accept()
+print("Client connected:", addr)
+
+while True:
+    data = c.recv(1024).decode()
+
+    if not data:
+        break
+
+    print("Received from client:", data)
+
+    c.send(data.encode())
+
+c.close()
+s.close()
+~~~
+###client.py
+~~~
+import socket
+
+s = socket.socket()
+s.connect(('localhost', 8000))
+
+print("Connected to Echo Server")
+
+while True:
+    msg = input("Enter a message: ")
+
+    if msg.lower() == "exit":
+        break
+
+    s.send(msg.encode())
+
+    data = s.recv(1024).decode()
+
+    print("Echo from server:", data)
+
+s.close()
+~~~
 ## OUPUT
-<img width="756" height="775" alt="image" src="https://github.com/user-attachments/assets/24593e87-b70b-4f99-adb3-33c16f11e76d" />
-<img width="715" height="597" alt="image" src="https://github.com/user-attachments/assets/3eb39236-1524-42e0-a73f-4a5197bacea7" />
+<img width="357" height="282" alt="Screenshot 2026-11-23 134556" src="https://github.com/user-attachments/assets/5765d2bd-3a7c-48a1-88be-d569701108c4" />
+<img width="466" height="122" alt="Screenshot 2026-11-23 134604" src="https://github.com/user-attachments/assets/389c2992-a702-4183-a907-34904aa1e0f5" />
 
 ## RESULT
 Thus, the python program for creating Echo Client and Echo Server using TCP Sockets Links 
